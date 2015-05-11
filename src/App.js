@@ -31,8 +31,9 @@ class App extends React.Component {
         <NavBar title="MystiqueNinja"/>
         <TransitionGroup transitionName="page">
           <RouteHandler key={this.context.router.getCurrentPath()} />
+          <Footer tagline="Designing a better future" companyName="MystiqueNinja" year="2015" />
         </TransitionGroup>
-        <Footer tagline="Designing a better future" companyName="MystiqueNinja" year="2015" />
+        
       </div>
     );
   }

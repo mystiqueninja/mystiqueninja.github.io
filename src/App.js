@@ -12,7 +12,7 @@ var Header = require('./components/Header.js')
 var Home = require('./pages/Home.js');
 var Contact = require('./pages/Contact.js');
 var Blog = require('./pages/Blog.js');
-
+var SinglePost = require('./pages/SinglePost.js');
 ////var Jumbotron = require('./components/Jumbotron.js');
 //var Header = require('./components/Header.js');
 var Footer = require('./components/Footer.js');
@@ -25,12 +25,11 @@ class App extends React.Component {
     }
   }
   render(){
-    console.log(name);
     return (
       <div id="App">
         <NavBar title="MystiqueNinja"/>
         <TransitionGroup transitionName="page">
-          <RouteHandler key={this.context.router.getCurrentPath()} />
+          <RouteHandler params={this.context.router.getCurrentParams()} key={this.context.router.getCurrentPath()} />
           <Footer tagline="Designing a better future" companyName="MystiqueNinja" year="2015" />
         </TransitionGroup>
         
@@ -46,6 +45,7 @@ var routes = (
     <Route name="home" path="/home" handler={Home} />
     <Route name="contact" path="/contact-us" handler={Contact} />
     <Route name="blog" path="/blog" handler={Blog} />
+    <Route name="post" path="/post/:slug" handler={SinglePost}/>
     <DefaultRoute handler={Home} />
   </Route>
 );

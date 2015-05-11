@@ -28,6 +28,9 @@ class Header extends React.Component {
       text: {
         color: this.props.color + ' !important',
         textShadow: '0px 0px 4px ' + this.props.shadow
+      },
+      hr: {
+        borderColor: this.props.color + ' !important',
       }
     }
     return (
@@ -37,7 +40,7 @@ class Header extends React.Component {
                 <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div className="site-heading">
                         <h1 style={style.text}>{this.props.heading}</h1>
-                        <hr className="small" />
+                        <hr style={style.hr} className="small" />
                         <h3 style={style.text} className="subheading">{this.props.content}</h3>
                     </div>
                 </div>

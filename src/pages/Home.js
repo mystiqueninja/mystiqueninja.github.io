@@ -1,12 +1,6 @@
 var React = require('react');
 var Jumbotron = require('../components/Jumbotron.js');
 var Header = require('../components/Header.js');
-var articles = [
-  {title: 'Welcome', subtitle: 'to mystiqueNinja', meta: 'this is just an intro blog post'},
-  {title: 'Welcome', subtitle: 'to mystiqueNinja', meta: 'this is just an intro blog post'},
-  {title: 'Welcome', subtitle: 'to mystiqueNinja', meta: 'this is just an intro blog post'},
-  {title: 'Welcome', subtitle: 'to mystiqueNinja', meta: 'this is just an intro blog post'}
-];
 class Article extends React.Component{
   render() {
     return (

@@ -20,7 +20,6 @@ class Article extends React.Component{
     );
   }
 }
-
 class Home extends React.Component{
   render () {
     return (
@@ -30,6 +29,4 @@ class Home extends React.Component{
     );
   }
 }
-
-
 module.exports = Home;

@@ -8,6 +8,7 @@ var gulp = require('gulp'),
 gulp.task('browserify', function () {
   return gulp.src('./src/App.js')
     .pipe(browserify({transform: ['reactify', 'babelify']}))
+    .pipe(concat('App.js'))
     .pipe(gulp.dest('./js'));
 });
 

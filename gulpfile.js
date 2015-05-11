@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     connect = require('gulp-connect'),
+    uglify = require('gulp-uglify'),
     open = require('gulp-open'),
     browserify = require('gulp-browserify'),
     concat = require('gulp-concat'),
@@ -8,7 +9,7 @@ var gulp = require('gulp'),
 gulp.task('browserify', function () {
   return gulp.src('./src/App.js')
     .pipe(browserify({transform: ['reactify', 'babelify']}))
-    .pipe(concat('App.js'))
+    .pipe(uglify({mangle: true}))
     .pipe(gulp.dest('./js'));
 });
 

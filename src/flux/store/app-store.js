@@ -36,6 +36,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
   getAllPosts: function () {
     return _posts;
   },
+  getSinglePost: function (index){
+    return _posts[index];
+  },
   dispatcherIndex: AppDispatcher.register(function (payload) {
     var action = payload.action;
     switch(action.actionType){

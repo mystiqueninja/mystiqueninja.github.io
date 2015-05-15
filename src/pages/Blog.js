@@ -8,7 +8,7 @@ class Post extends React.Component{
   render() {
     return (
       <div className="post-preview">
-          <a href={'#/post/' + this.props.slug}>
+          <a href={'#/post/' + this.props.id}>
               <h2 className="post-title">{this.props.title}</h2>
               <h3 className="post-subtitle">{this.props.subtitle}</h3>
           </a>

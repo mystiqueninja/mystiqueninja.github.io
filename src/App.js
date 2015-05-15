@@ -1,21 +1,25 @@
-var React        = require('react');
-var TransitionGroup = require('react/lib/ReactCSSTransitionGroup');
+/* React */
+var React        = require('react'), 
+    TransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 
+/* ReactRouter */
 var Router       = require('react-router'), 
     Route        = Router.Route,
     DefaultRoute = Router.DefaultRoute, 
     RouteHandler = Router.RouteHandler;
 
-var NavBar = require('./components/NavBar.js');
-var Header = require('./components/Header.js')
+/* Components */
+var NavBar = require('./components/NavBar.js'),
+    Header = require('./components/Header.js'),
+    Home = require('./pages/Home.js'),
+    Contact = require('./pages/Contact.js'),
+    Blog = require('./pages/Blog.js'),
+    SinglePost = require('./pages/SinglePost.js'),
+    Footer = require('./components/Footer.js');
 
-var Home = require('./pages/Home.js');
-var Contact = require('./pages/Contact.js');
-var Blog = require('./pages/Blog.js');
-var SinglePost = require('./pages/SinglePost.js');
-
-var Footer = require('./components/Footer.js');
-
+/*
+* Main app
+*/
 class App extends React.Component {
   constructor() {
     super();
@@ -31,7 +35,6 @@ class App extends React.Component {
           <RouteHandler params={this.context.router.getCurrentParams()} key={this.context.router.getCurrentPath()} />
           <Footer tagline="Designing a better future" companyName="MystiqueNinja" year="2015" />
         </TransitionGroup>
-        
       </div>
     );
   }
@@ -39,6 +42,7 @@ class App extends React.Component {
 App.contextTypes = {
   router: React.PropTypes.func
 };
+/* App routes */
 var routes = (
   <Route name="app" path="/" handler={App}>
     <Route name="home" path="/home" handler={Home} />

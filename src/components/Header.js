@@ -10,7 +10,8 @@ class Header extends React.Component {
     this.setState({scrollTop: window.scrollY});
   }
   componentDidMount() {
-    window.addEventListener('scroll', this.parallax.bind(this), false);
+    if (this.props.parallax) 
+      window.addEventListener('scroll', this.parallax.bind(this), false);
   }
 
   componentWillUnmount(){

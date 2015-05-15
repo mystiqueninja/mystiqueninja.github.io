@@ -1,6 +1,5 @@
 var React = require('react');
 var Link = require('react-router-active-component')("li"); 
-var jQuery = require('jquery');
 
 class NavBar extends React.Component {
   constructor() {
@@ -10,31 +9,14 @@ class NavBar extends React.Component {
     }
   }
   componentDidMount(){
-    var $ = jQuery;
-    var MQL = 1140;
-    if ($(window).width() > MQL) {
-    var headerHeight = $(this.refs.navbar.getDOMNode()).height();
-    $(window).on('scroll', {
-            previousTop: 0
-        },
-        () => {
-            var currentTop = $(window).scrollTop();
-            //check if user is scrolling up
-            if (currentTop < this.previousTop) {
-                //if scrolling up...
-                if (currentTop > 0 && $(this.refs.navbar.getDOMNode()).hasClass('is-fixed')) {
-                    $(this.refs.navbar.getDOMNode()).addClass('is-visible');
-                } else {
-                    $(this.refs.navbar.getDOMNode()).removeClass('is-visible is-fixed');
-                }
-            } else {
-                //if scrolling down...
-                $(this.refs.navbar.getDOMNode()).removeClass('is-visible');
-                if (currentTop > headerHeight && !$(this.refs.navbar.getDOMNode()).hasClass('is-fixed')) $(this.refs.navbar.getDOMNode()).addClass('is-fixed');
-            }
-            this.previousTop = currentTop;
-        });
-    }
+    window.addEventListener('scroll', this.onScrollHandle.bind(this), false);
+  }
+  onScrollHandle(e){
+    var navbar = this.refs.navbar.getDOMNode();
+    var navbarHeight = navbar.height;
+  }
+  componentWillUnount(){
+     window.removeEventListener('scroll', this.onScrollHandle.bind(this), false);
   }
   render(){
     return (

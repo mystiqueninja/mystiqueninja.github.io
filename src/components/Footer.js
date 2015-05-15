@@ -1,12 +1,8 @@
 var React = require('react');
-var jQuery = require('jquery');
 
 class Footer extends React.Component {
   componentDidMount(){
-    jQuery(() => {
-      var footer = jQuery(this.refs.footer.getDOMNode());
-      footer.show(2000);
-    });
+
   }
   render(){
     return (

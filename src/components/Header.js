@@ -1,29 +1,26 @@
 var React = require('react');
-var jQuery = require('jquery');
 class Header extends React.Component {
   constructor() {
     super();
     this.state = {
-      
+      scrollTop: 0
     }
   }
+  parallax(e) {
+    this.setState({scrollTop: window.scrollY});
+  }
   componentDidMount() {
-    if (this.props.parallax) {
-      var header = jQuery(this.refs.header.getDOMNode());
-      var win = jQuery(window);
-      win.on('scroll', function (e) {
-        var scrollTop = win.scrollTop();
-        header.css({
-          'backgroundPosition': '0px ' + (Math.floor(scrollTop*0.3)) + 'px'
-        });
-      });
-    }
+    window.addEventListener('scroll', this.parallax.bind(this), false);
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.parallax, false)
   }
   render(){
     var style = {
       header: {
         backgroundImage: 'url(' + this.props.image + ')',
-        backgroundPosition: '0px 0px'
+        'backgroundPosition': '0px ' + (Math.floor(this.state.scrollTop*0.3)) + 'px'
       },
       text: {
         color: this.props.color + ' !important',

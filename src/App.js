@@ -13,8 +13,7 @@ var Home = require('./pages/Home.js');
 var Contact = require('./pages/Contact.js');
 var Blog = require('./pages/Blog.js');
 var SinglePost = require('./pages/SinglePost.js');
-////var Jumbotron = require('./components/Jumbotron.js');
-//var Header = require('./components/Header.js');
+
 var Footer = require('./components/Footer.js');
 
 class App extends React.Component {
@@ -52,8 +51,3 @@ var routes = (
 Router.run(routes, function (Handle) {
   React.render(<Handle />, document.body);
 });
-
-
-jQuery(function ($){
-  $('#no-js').css({display: 'none'});
-}(jQuery));

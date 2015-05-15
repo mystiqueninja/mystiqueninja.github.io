@@ -2,13 +2,9 @@ var React = require('react');
 var Link = require('react-router').Link;
 var Jumbotron = require('../components/Jumbotron.js');
 var Header = require('../components/Header.js');
-var articles = [
-  {title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome2'},
-  {title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome3'},
-  {title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome4'},
-  {title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'this is just an intro blog post', slug: 'welcome1'}
-];
-class Article extends React.Component{
+var actions = require('../flux/actions/app-actions');
+var AppStore = require('../flux/store/app-store');
+class Post extends React.Component{
   render() {
     return (
       <div className="post-preview">
@@ -21,11 +17,16 @@ class Article extends React.Component{
     );
   }
 }
-
-class Home extends React.Component{
+class Blog extends React.Component{
+  constructor(){
+    super();
+    this.state ={
+      posts: AppStore.getAllPosts()
+    };
+  }
   render () {
-    var Articles = articles.map((article) => {
-      return <Article {...article} />;
+    var Posts = this.state.posts.map((post) => {
+      return <Post {...post} />;
     });
     return (
       <div id="blog">
@@ -33,7 +34,7 @@ class Home extends React.Component{
         <div className="container">
             <div className="row">
                <div className="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                  {Articles}
+                  {Posts}
                </div>
              </div>
           </div>
@@ -41,6 +42,4 @@ class Home extends React.Component{
     );
   }
 }
-
-
-module.exports = Home;
+module.exports = Blog;

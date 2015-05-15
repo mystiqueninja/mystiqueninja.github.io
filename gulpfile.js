@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 gulp.task('browserify', function () {
   return gulp.src('./src/App.js')
     .pipe(browserify({transform: ['reactify', 'babelify']}))
-    //.pipe(uglify({mangle: true}))
+    .pipe(uglify({mangle: true}))
     .pipe(gulp.dest('./js'));
 });
 

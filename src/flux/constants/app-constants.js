@@ -4,6 +4,5 @@ module.exports = {
 	REMOVE_POST: 'REMOVE_POST', 
 	EDIT_POST: 'EDIT_POST',
 	// TODO: Add comment actions
-	GET_LATEST_POSTS: 'GET_LATEST_POSTS',
-	GET_ALL_POSTS: 'GET_ALL_POSTS'
+    ADD_COMMENT:'ADD_COMMENT'
 };

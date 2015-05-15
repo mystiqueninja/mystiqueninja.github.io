@@ -13,6 +13,7 @@ class Post extends React.Component{
               <h3 className="post-subtitle">{this.props.subtitle}</h3>
           </a>
           <p className="post-meta">{this.props.meta}</p>
+          <p><small>Comments: {this.props.comments.length} | Likes: | Shares:</small></p>
       </div>
     );
   }
@@ -20,6 +21,7 @@ class Post extends React.Component{
 class Blog extends React.Component{
   constructor(){
     super();
+//    AppStore.addChangeListener()
     this.state ={
       posts: AppStore.getAllPosts()
     };

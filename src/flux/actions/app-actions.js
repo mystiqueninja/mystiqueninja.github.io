@@ -21,9 +21,12 @@ var AppActions = {
             newPost: newPost
 		});
     },
-    getAllPosts: function () {
+  
+    addComment: function (postIndex, newComment){
       AppDispatcher.handleViewAction({
-        actionType: AppConstants.GET_ALL_POSTS
+        actionType: AppConstants.ADD_COMMENT,
+        postIndex: postIndex,
+        newComment: newComment
       });
     }
 };

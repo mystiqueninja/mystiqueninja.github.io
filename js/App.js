@@ -25399,9 +25399,12 @@ var AppActions = {
 			newPost: newPost
 		});
 	},
-	getAllPosts: function getAllPosts() {
+
+	addComment: function addComment(postIndex, newComment) {
 		AppDispatcher.handleViewAction({
-			actionType: AppConstants.GET_ALL_POSTS
+			actionType: AppConstants.ADD_COMMENT,
+			postIndex: postIndex,
+			newComment: newComment
 		});
 	}
 };
@@ -25417,8 +25420,7 @@ module.exports = {
 	REMOVE_POST: 'REMOVE_POST',
 	EDIT_POST: 'EDIT_POST',
 	// TODO: Add comment actions
-	GET_LATEST_POSTS: 'GET_LATEST_POSTS',
-	GET_ALL_POSTS: 'GET_ALL_POSTS'
+	ADD_COMMENT: 'ADD_COMMENT'
 };
 
 },{}],217:[function(require,module,exports){
@@ -25499,7 +25501,7 @@ var assign = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
 var CHANGE_EVENT = 'change';
 // TODO: Add firebase support
-var _posts = [{ id: 0, title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome2' }, { id: 1, title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome3' }, { id: 2, title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome4' }, { id: 3, title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'this is just an intro blog post', slug: 'welcome1' }];
+var _posts = [{ id: 0, comments: [], title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome2' }, { id: 1, comments: [], title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome3' }, { id: 2, comments: [], title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio ex iusto odit, magni dignissimos asperiores vero cum excepturi nobis quisquam explicabo ipsam. Vel cumque eaque quod! Saepe architecto impedit tempore.', slug: 'welcome4' }, { id: 3, comments: [], title: 'Blog comming soon', subtitle: 'to mystiqueNinja', meta: 'this is just an intro blog post', slug: 'welcome1' }];
 function _addPost(newPost) {
   newPost.id = _posts.length + 1;
   _posts.push(newPost);
@@ -25513,6 +25515,11 @@ function _editPost(index, newPost) {
 function _getAllPosts() {
   return _posts;
 }
+function _addComment(postIndex, newComment) {
+  _posts[postIndex].comments.push(newComment);
+  console.log(newComment, _posts[postIndex]);
+}
+
 var AppStore = assign({}, EventEmitter.prototype, {
   emitChange: function emitChange() {
     this.emit(CHANGE_EVENT);
@@ -25541,9 +25548,8 @@ var AppStore = assign({}, EventEmitter.prototype, {
       case AppConstants.EDIT_POST:
         _editPost(action.index, action.newPost);
         break;
-      case AppConstants.GET_ALL_POSTS:
-        _editPost();
-        break;
+      case AppConstants.ADD_COMMENT:
+        _addComment(action.postIndex, action.newComment);
     }
     AppStore.emitChange();
     return true;
@@ -25585,7 +25591,7 @@ var Post = (function (_React$Component) {
   _createClass(Post, [{
     key: 'render',
     value: function render() {
-      return React.createElement('div', { className: 'post-preview' }, React.createElement('a', { href: '#/post/' + this.props.id }, React.createElement('h2', { className: 'post-title' }, this.props.title), React.createElement('h3', { className: 'post-subtitle' }, this.props.subtitle)), React.createElement('p', { className: 'post-meta' }, this.props.meta));
+      return React.createElement('div', { className: 'post-preview' }, React.createElement('a', { href: '#/post/' + this.props.id }, React.createElement('h2', { className: 'post-title' }, this.props.title), React.createElement('h3', { className: 'post-subtitle' }, this.props.subtitle)), React.createElement('p', { className: 'post-meta' }, this.props.meta), React.createElement('p', null, React.createElement('small', null, 'Comments: ', this.props.comments.length, ' | Likes: | Shares:')));
     }
   }]);
 
@@ -25597,6 +25603,7 @@ var Blog = (function (_React$Component2) {
     _classCallCheck(this, Blog);
 
     _get(Object.getPrototypeOf(Blog.prototype), 'constructor', this).call(this);
+    //    AppStore.addChangeListener()
     this.state = {
       posts: AppStore.getAllPosts()
     };
@@ -25727,9 +25734,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var React = require('react');
 var Link = require('react-router').Link;
-var Jumbotron = require('../components/Jumbotron.js');
-var Header = require('../components/Header.js');
+var Jumbotron = require('../components/Jumbotron');
+var Header = require('../components/Header');
 var AppStore = require('../flux/store/app-store');
+var AppActions = require('../flux/actions/app-actions');
+
+var Comments = React.createClass({ displayName: 'Comments',
+
+  render: function render() {
+    console.log(this.props);
+    var Coms = this.props.data.map(function (comment) {
+      return React.createElement('li', null, comment.text);
+    });
+    return React.createElement('ul', null, Coms);
+  }
+});
 
 var SinglePost = (function (_React$Component) {
   function SinglePost() {
@@ -25751,9 +25770,19 @@ var SinglePost = (function (_React$Component) {
       });
     }
   }, {
+    key: 'handleCommentSubmit',
+    value: function handleCommentSubmit(e) {
+      e.preventDefault();
+      var newComment = {
+        text: this.refs.commentText.getDOMNode().value
+      };
+      AppActions.addComment(this.props.params.slug, newComment);
+    }
+  }, {
     key: 'render',
     value: function render() {
-      return React.createElement('div', { id: 'single' }, React.createElement(Header, { image: '/images/bg3.jpg', shadow: 'white', color: 'black', content: this.state.article.subtitle, heading: this.state.article.title, parallax: false }), React.createElement('div', { className: 'container' }, React.createElement('div', { className: 'row' }, React.createElement('div', { className: 'col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1' }, this.state.article.meta))));
+      console.log(this.state.article);
+      return React.createElement('div', { id: 'single' }, React.createElement(Header, { image: '/images/bg3.jpg', shadow: 'white', color: 'black', content: this.state.article.subtitle, heading: this.state.article.title, parallax: false }), React.createElement('div', { className: 'container' }, React.createElement('div', { className: 'row' }, React.createElement('div', { className: 'col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1' }, this.state.article.meta, React.createElement('hr', null), React.createElement('b', null, 'Comments'), this.state.article.comments ? React.createElement(Comments, { data: this.state.article.comments }) : null, React.createElement('form', { onSubmit: this.handleCommentSubmit.bind(this) }, React.createElement('textarea', { ref: 'commentText', type: 'text' }), React.createElement('button', { className: 'btn btn-success btn-lg', type: 'submit' }, 'Post Comment'))))));
     }
   }]);
 
@@ -25762,4 +25791,4 @@ var SinglePost = (function (_React$Component) {
 
 module.exports = SinglePost;
 
-},{"../components/Header.js":211,"../components/Jumbotron.js":212,"../flux/store/app-store":219,"react":208,"react-router":30}]},{},[214])
+},{"../components/Header":211,"../components/Jumbotron":212,"../flux/actions/app-actions":215,"../flux/store/app-store":219,"react":208,"react-router":30}]},{},[214])
